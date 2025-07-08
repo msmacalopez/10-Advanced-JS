@@ -14,7 +14,7 @@ const multi_person = ({ fn }) => {
   return {
     name: fn,
     // bio: () => {
-    //   return `this is ${fn}`;
+    //   return `this is ${this.name}`;
     // },
     bio() {
       return `hey this os ${this.name}`; //this refers to the object that is inmediately
@@ -22,20 +22,28 @@ const multi_person = ({ fn }) => {
   };
 };
 
-// const value = multi_person();
-// console.log(value);
+const personObj = multi_person({ fn: "Maca" });
+console.log(personObj.bio());
 
 //class Person {} //not an object yet, we need property and method
 class Person {
+  #secretKey;
+
   //constructor method
   constructor(n, ln, secret) {
     this.name = n;
     this.ln = ln;
-    // this.#secret = secret;
+    this.#secretKey = "234";
+  }
+
+  #banking() {
+    //use the key to get some amount transfer
+    console.log(this.#secretKey);
+    return "345";
   }
   // this.name="prem"
   bio() {
-    return `hey ${this.name}`;
+    return `hey ${this.name} your balance is ${this.#banking()}`;
   }
 }
 
@@ -56,11 +64,17 @@ console.log(val);
 console.log(val.secret);
 
 //Inheritance - classify different objects, we can have some Broad class and inherite from that when needed
-class Human {
-  constructor(fn, ln, dob) {
+class Living {
+  constructor(fn, dob) {
     this.fn = fn;
-    this.ln = ln;
     this.dob = dob;
+  }
+}
+
+class Human extends Living {
+  constructor({ fn, ln, dob }) {
+    super(fn, dob);
+    this.ln = ln;
   }
   bio() {
     return `
@@ -69,29 +83,32 @@ class Human {
   }
 }
 const premObj = new Human({ fn: "Prem", ln: "Acharya", dob: "12-12-1221" });
+
 const another = { fn: "Prem", ln: "Acharya", dob: "12-12-1221" };
 const premInst = new Human(another);
 console.log(another);
 
-// class Animal {
-//   constructor({ fn, dob }) {
-//     this.fn = fn;
-//     this.dob = dob;
-//     this.owner = owner;
-//   }
+class Animal extends Living {
+  constructor({ fn, dob, owner }) {
+    super(fn, dob);
+    this.owner = owner;
+  }
 
-//   bio() {
-//     return `
-//     HI iam ${this.fn} was born in ${this.dob}. MY owner is ${this.owner}
-//     `;
-//   }
-// }
+  bio() {
+    return `
+    HI iam ${this.fn} was born in ${this.dob}. MY owner is ${this.owner}
+    `;
+  }
+}
 
-// const mrCat={
-//     fn:"billy",
-//     dob:"11111",
-//     owner:
-// }
+const mrCat = {
+  fn: "billy",
+  dob: "11111",
+  owner: "OJ",
+};
+
+const mrCatInst = new Animal(mrCat);
+console.log(mrCatInst);
 
 ///Challenge
 //Q1
